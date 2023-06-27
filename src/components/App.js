@@ -1,6 +1,7 @@
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
+import PopupWithForm from "./PopupWithForm";
 
 function App() {
   return (
@@ -9,40 +10,32 @@ function App() {
         <Header />
         <Main />
         <Footer />
-        <div className="popup popup-profile">
-          <div className="popup__container">
-            <button className="popup__button-close" type="button"></button>
-            <h3 className="popup__title">Редактировать профиль</h3>
-            <form className="popup__form" name="edit-profile" noValidate>
-              <label className="popup__form-field">
-                <input id="username" className="popup__input" type="text" name="name" placeholder="Имя" required minLength="2" maxLength="40" />
-                <span id="error-username" className="popup__input-error"></span>
-              </label>
-              <label className="popup__form-field">
-                <input id="about" className="popup__input" type="text" name="about" placeholder="Профессия" required minLength="2" maxLength="200" />
-                <span id="error-about" className="popup__input-error"></span>
-              </label>
-              <button className="popup__button-save" type="submit">Сохранить</button>
-            </form>
-          </div>
-        </div>
-        <div className="popup popup-add">
-          <div className="popup__container">
-            <button className="popup__button-close" type="button"></button>
-            <form className="popup__form" name="add-card" noValidate>
-              <h3 className="popup__title">Новое место</h3>
-              <label className="popup__form-field">
-                <input id="place" className="popup__input" type="text" name="place" placeholder="Название" required minLength="2" maxLength="30" />
-                <span id="error-place" className="popup__input-error"></span>
-              </label>
-              <label className="popup__form-field">
-                <input id="link" className="popup__input" type="url" name="link" placeholder="Ссылка на картинку" required />
-                <span id="error-link" className="popup__input-error"></span>
-              </label>
-              <button className="popup__button-save" type="submit">Создать</button>
-            </form>
-          </div>
-        </div>
+        <PopupWithForm name="profile" title="Редактировать профиль" children={(
+          <>
+            <label className="popup__form-field">
+              <input id="username" className="popup__input" type="text" name="name" placeholder="Имя" required minLength="2" maxLength="40" />
+              <span id="error-username" className="popup__input-error"></span>
+            </label>
+            <label className="popup__form-field">
+              <input id="about" className="popup__input" type="text" name="about" placeholder="Профессия" required minLength="2" maxLength="200" />
+              <span id="error-about" className="popup__input-error"></span>
+            </label>
+            <button className="popup__button-save" type="submit">Сохранить</button>
+          </>
+        )} />
+        <PopupWithForm name="add" title="Новое место" children={(
+          <>
+            <label className="popup__form-field">
+              <input id="place" className="popup__input" type="text" name="place" placeholder="Название" required minLength="2" maxLength="30" />
+              <span id="error-place" className="popup__input-error"></span>
+            </label>
+            <label className="popup__form-field">
+              <input id="link" className="popup__input" type="url" name="link" placeholder="Ссылка на картинку" required />
+              <span id="error-link" className="popup__input-error"></span>
+            </label>
+            <button className="popup__button-save" type="submit">Создать</button>
+          </>
+        )} />
         <div className="popup popup-picture">
           <figure className="popup__figure">
             <button className="popup__button-close" type="button"></button>
@@ -50,26 +43,22 @@ function App() {
             <figcaption className="popup__figcaption"></figcaption>
           </figure>
         </div>
-        <div className="popup popup-alert">
-          <div className="popup__container">
-            <button className="popup__button-close" type="button"></button>
-            <p className="popup__alert-text popup__title">Вы уверены?</p>
+
+        <PopupWithForm name="alert" title="Вы уверены?" children={(
+          <>
             <button className="popup__button-save" type="button">Да</button>
-          </div>
-        </div>
-        <div className="popup popup-avatar">
-          <div className="popup__container">
-            <button className="popup__button-close" type="button"></button>
-            <h3 className="popup__title">Обновить аватар</h3>
-            <form className="popup__form" name="avatar-update" noValidate>
-              <label className="popup__form-field">
-                <input id="avatar" className="popup__input" type="url" name="avatar" placeholder="Ссылка на картинку" required />
-                <span id="error-avatar" className="popup__input-error"></span>
-              </label>
+          </>
+        )} />
+
+        <PopupWithForm name="avatar" title="Обновить аватар" children={(
+          <>
+            <label className="popup__form-field">
+              <input id="avatar" className="popup__input" type="url" name="avatar" placeholder="Ссылка на картинку" required />
+              <span id="error-avatar" className="popup__input-error"></span>
+            </label>
             <button className="popup__button-save" type="submit">Сохранить</button>
-            </form>
-          </div>
-        </div>
+          </>
+        )} />
       </div>
       <template id="card-template">
         <li className="card">
