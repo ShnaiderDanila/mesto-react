@@ -13,13 +13,13 @@ function App() {
           <div className="popup__container">
             <button className="popup__button-close" type="button"></button>
             <h3 className="popup__title">Редактировать профиль</h3>
-            <form className="popup__form" name="edit-profile" novalidate>
+            <form className="popup__form" name="edit-profile" noValidate>
               <label className="popup__form-field">
-                <input id="username" className="popup__input" type="text" name="name" placeholder="Имя" required minlength="2" maxlength="40" />
+                <input id="username" className="popup__input" type="text" name="name" placeholder="Имя" required minLength="2" maxLength="40" />
                 <span id="error-username" className="popup__input-error"></span>
               </label>
               <label className="popup__form-field">
-                <input id="about" className="popup__input" type="text" name="about" placeholder="Профессия" required minlength="2" maxlength="200" />
+                <input id="about" className="popup__input" type="text" name="about" placeholder="Профессия" required minLength="2" maxLength="200" />
                 <span id="error-about" className="popup__input-error"></span>
               </label>
               <button className="popup__button-save" type="submit">Сохранить</button>
@@ -29,10 +29,10 @@ function App() {
         <div className="popup popup-add">
           <div className="popup__container">
             <button className="popup__button-close" type="button"></button>
-            <form className="popup__form" name="add-card" novalidate>
+            <form className="popup__form" name="add-card" noValidate>
               <h3 className="popup__title">Новое место</h3>
               <label className="popup__form-field">
-                <input id="place" className="popup__input" type="text" name="place" placeholder="Название" required minlength="2" maxlength="30" />
+                <input id="place" className="popup__input" type="text" name="place" placeholder="Название" required minLength="2" maxLength="30" />
                 <span id="error-place" className="popup__input-error"></span>
               </label>
               <label className="popup__form-field">
@@ -61,7 +61,7 @@ function App() {
           <div className="popup__container">
             <button className="popup__button-close" type="button"></button>
             <h3 className="popup__title">Обновить аватар</h3>
-            <form className="popup__form" name="avatar-update" novalidate>
+            <form className="popup__form" name="avatar-update" noValidate>
               <label className="popup__form-field">
                 <input id="avatar" className="popup__input" type="url" name="avatar" placeholder="Ссылка на картинку" required />
                 <span id="error-avatar" className="popup__input-error"></span>
