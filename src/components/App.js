@@ -1,32 +1,14 @@
-import logo from '../images/logo.svg';
+import Header from "./Header";
+import Main from "./Main";
+import Footer from "./Footer";
 
 function App() {
   return (
     <>
       <div className="wrapper">
-        <header className="header">
-          <img className="header__logo" src={logo} alt="Логотип проекта - Место Россия" />
-        </header>
-        <main className="main">
-          <section className="profile">
-            <button className="profile__avatar-button" type="button">
-              <img className="profile__avatar-image" alt="Аватарка пользователя" />
-              <div className="profile__avatar-overlay"></div>
-            </button>
-            <div className="profile__info">
-              <h1 className="profile__title">Жак-Ив Кусто</h1>
-              <button className="profile__button-edit" type="button"></button>
-              <p className="profile__subtitle">Исследователь океана</p>
-            </div>
-            <button className="profile__button-add" type="button"></button>
-          </section>
-          <section className="gallery">
-            <ul className="gallery__list"></ul>
-          </section>
-        </main>
-        <footer className="footer">
-          <p className="footer__copyright">© 2023 Mesto Russia</p>
-        </footer>
+        <Header />
+        <Main />
+        <Footer />
         <div className="popup popup-profile">
           <div className="popup__container">
             <button className="popup__button-close" type="button"></button>
