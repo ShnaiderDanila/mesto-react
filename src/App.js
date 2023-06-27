@@ -2,7 +2,7 @@ import logo from './images/logo.svg';
 
 function App() {
   return (
-    <div className="page">
+    <>
       <div className="wrapper">
         <header className="header">
           <img className="header__logo" src={logo} alt="Логотип проекта - Место Россия" />
@@ -102,7 +102,7 @@ function App() {
           </div>
         </li>
       </template>
-    </div>
+    </>
   )
 };
 
