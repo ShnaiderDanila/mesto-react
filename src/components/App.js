@@ -23,9 +23,9 @@ function App() {
   }
 
   function closeAllPopups() {
-    setIsEditProfilePopupOpen(false);
-    setIsAddPlacePopupOpen(false);
-    setIsEditAvatarPopupOpen(false);
+    isEditProfilePopupOpen && setIsEditProfilePopupOpen(false);
+    isAddPlacePopupOpen && setIsAddPlacePopupOpen(false);
+    isEditAvatarPopupOpen && setIsEditAvatarPopupOpen(false);
   }
 
   return (
