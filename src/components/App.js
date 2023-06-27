@@ -2,6 +2,7 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
+import ImagePopup from "./ImagePopup";
 
 function App() {
   return (
@@ -36,20 +37,12 @@ function App() {
             <button className="popup__button-save" type="submit">Создать</button>
           </>
         )} />
-        <div className="popup popup-picture">
-          <figure className="popup__figure">
-            <button className="popup__button-close" type="button"></button>
-            <img className="popup__big-image" />
-            <figcaption className="popup__figcaption"></figcaption>
-          </figure>
-        </div>
-
+        <ImagePopup/>
         <PopupWithForm name="alert" title="Вы уверены?" children={(
           <>
             <button className="popup__button-save" type="button">Да</button>
           </>
         )} />
-
         <PopupWithForm name="avatar" title="Обновить аватар" children={(
           <>
             <label className="popup__form-field">
