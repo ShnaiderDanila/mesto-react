@@ -1,12 +1,11 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from './images/logo.svg';
 
 function App() {
   return (
     <div className="page">
       <div className="wrapper">
         <header className="header">
-          <img className="header__logo" src="<%=require('./images/logo.svg')%>" alt="Логотип проекта - Место Россия" />
+          <img className="header__logo" src={logo} alt="Логотип проекта - Место Россия" />
         </header>
         <main className="main">
           <section className="profile">
@@ -15,9 +14,9 @@ function App() {
               <div className="profile__avatar-overlay"></div>
             </button>
             <div className="profile__info">
-              <h1 className="profile__title"></h1>
+              <h1 className="profile__title">Жак-Ив Кусто</h1>
               <button className="profile__button-edit" type="button"></button>
-              <p className="profile__subtitle"></p>
+              <p className="profile__subtitle">Исследователь океана</p>
             </div>
             <button className="profile__button-add" type="button"></button>
           </section>
