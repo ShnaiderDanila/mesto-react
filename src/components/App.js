@@ -86,7 +86,6 @@ function App() {
         <ImagePopup
           card={selectedCard}
           onClose={closeAllPopups}
-
         />
         <PopupWithForm
           name="alert"
