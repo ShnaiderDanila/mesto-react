@@ -1,10 +1,10 @@
 function Card(props) {
   function handleImageClick() {
     props.onCardClick(props.card);
-  } 
-   
+  }
+
   return (
-    <li key={props.card._id} className="card">
+    <li className="card">
       <img onClick={handleImageClick} className="card__image" src={props.card.link} alt={props.card.name} />
       <button className="card__delete-button" type="button"></button>
       <div className="card__description">
