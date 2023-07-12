@@ -64,6 +64,7 @@ class Api {
       })
     })
   }
+  
 
   // Метод удаления карточки с сервера
   deleteCard(cardId) {
@@ -72,6 +73,16 @@ class Api {
       headers: this._headers,
     })
   }
+
+  // Метод изменения состояния лайка на сервере
+  changeLikeCardStatus(cardId, isLiked) {
+    if (isLiked) {
+      return this.removeLike(cardId)
+    } else {
+      return this.setLike(cardId)
+    }
+  }
+
 
   // Метод постановки лайка на сервере
   setLike(cardId) {
