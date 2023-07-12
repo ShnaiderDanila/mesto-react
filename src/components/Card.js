@@ -1,4 +1,9 @@
+import React from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
+
 function Card({card, onCardClick}) {
+
+  const {_id} = React.useContext(CurrentUserContext);
   
   function handleImageClick() {
     onCardClick(card);
