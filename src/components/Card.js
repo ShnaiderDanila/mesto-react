@@ -3,8 +3,12 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 function Card({card, onCardClick}) {
 
-  const {_id} = React.useContext(CurrentUserContext);
-  
+  const currentUser = React.useContext(CurrentUserContext);
+  // Определяем, являемся ли мы владельцем текущей карточки
+  const isOwn = card.owner._id === currentUser._id;
+  // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
+  const isLiked = card.likes.some(item => item._id === currentUser._id);
+
   function handleImageClick() {
     onCardClick(card);
   }
@@ -12,11 +16,11 @@ function Card({card, onCardClick}) {
   return (
     <li className="card">
       <img onClick={handleImageClick} className="card__image" src={card.link} alt={card.name} />
-      <button className="card__delete-button" type="button"></button>
+      {isOwn && <button className="card__delete-button" type="button"/>}
       <div className="card__description">
         <h2 className="card__title">{card.name}</h2>
         <div className="card__like">
-          <button className="card__like-button" type="button"></button>
+          <button className={`card__like-button ${isLiked && 'card__like-button_is-active'}`} type="button"></button>
           <p className="card__like-count">{card.likes.length}</p>
         </div>
       </div>
