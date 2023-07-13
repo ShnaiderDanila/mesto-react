@@ -4,6 +4,7 @@ import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import ImagePopup from "./ImagePopup";
 import { api } from "../utils/Api.js";
 import CurrentUserContext from "../contexts/CurrentUserContext.js";
@@ -79,13 +80,24 @@ function App() {
 
   function handleUpdateUser(name, about) {
     api.editProfile(name, about)
-    .then(()=> {
-      setCurrentUser({...currentUser, name: name, about: about})
-      closeAllPopups();
-    })
-    .catch((err) => {
-      console.error(`Ошибка: ${err}`);
-    });
+      .then(() => {
+        setCurrentUser({ ...currentUser, name: name, about: about })
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.error(`Ошибка: ${err}`);
+      });
+  }
+
+  function handleUpdateAvatar(avatar) {
+    api.updateAvatar(avatar)
+      .then(() => {
+        setCurrentUser({ ...currentUser, avatar: avatar})
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.error(`Ошибка: ${err}`);
+      });
   }
 
   return (
@@ -102,10 +114,10 @@ function App() {
           onCardDelete={handleCardDelete}
         />
         <Footer />
-        <EditProfilePopup 
-         isOpen={isEditProfilePopupOpen}
-         onClose={closeAllPopups}
-         onUpdateUser={handleUpdateUser}
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
         />
         <PopupWithForm
           name="add"
@@ -133,19 +145,11 @@ function App() {
           title="Вы уверены?"
           buttonText="Да">
         </PopupWithForm>
-        <PopupWithForm
-          name="avatar"
-          title="Обновить аватар"
-          buttonText="Сохранить"
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}>
-          <>
-            <label className="popup__form-field">
-              <input id="avatar" className="popup__input" type="url" name="avatar" placeholder="Ссылка на картинку" required />
-              <span id="error-avatar" className="popup__input-error"></span>
-            </label>
-          </>
-        </PopupWithForm>
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
       </div>
     </CurrentUserContext.Provider>
   )
