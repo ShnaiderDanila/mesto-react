@@ -3,9 +3,10 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
+import EditProfilePopup from './EditProfilePopup';
 import ImagePopup from "./ImagePopup";
 import { api } from "../utils/Api.js";
-import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
+import CurrentUserContext from "../contexts/CurrentUserContext.js";
 
 function App() {
 
@@ -76,6 +77,17 @@ function App() {
       });
   }
 
+  function handleUpdateUser(name, about) {
+    api.editProfile(name, about)
+    .then(()=> {
+      setCurrentUser({...currentUser, name: name, about: about})
+      closeAllPopups();
+    })
+    .catch((err) => {
+      console.error(`Ошибка: ${err}`);
+    });
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="wrapper">
@@ -90,23 +102,11 @@ function App() {
           onCardDelete={handleCardDelete}
         />
         <Footer />
-        <PopupWithForm
-          name="profile"
-          title="Редактировать профиль"
-          buttonText="Сохранить"
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}>
-          <>
-            <label className="popup__form-field">
-              <input id="username" className="popup__input" type="text" name="name" placeholder="Имя" required minLength="2" maxLength="40" />
-              <span id="error-username" className="popup__input-error"></span>
-            </label>
-            <label className="popup__form-field">
-              <input id="about" className="popup__input" type="text" name="about" placeholder="Профессия" required minLength="2" maxLength="200" />
-              <span id="error-about" className="popup__input-error"></span>
-            </label>
-          </>
-        </PopupWithForm>
+        <EditProfilePopup 
+         isOpen={isEditProfilePopupOpen}
+         onClose={closeAllPopups}
+         onUpdateUser={handleUpdateUser}
+        />
         <PopupWithForm
           name="add"
           title="Новое место"
