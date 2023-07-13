@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from "./ImagePopup";
 import { api } from "../utils/Api.js";
 import CurrentUserContext from "../contexts/CurrentUserContext.js";
@@ -92,7 +93,18 @@ function App() {
   function handleUpdateAvatar(avatar) {
     api.updateAvatar(avatar)
       .then(() => {
-        setCurrentUser({ ...currentUser, avatar: avatar})
+        setCurrentUser({ ...currentUser, avatar: avatar })
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.error(`Ошибка: ${err}`);
+      });
+  }
+
+  function handleAddPlaceSubmit(name, link) {
+    api.addCard(name, link)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
         closeAllPopups();
       })
       .catch((err) => {
@@ -119,23 +131,11 @@ function App() {
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
         />
-        <PopupWithForm
-          name="add"
-          title="Новое место"
-          buttonText="Создать"
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}>
-          <>
-            <label className="popup__form-field">
-              <input id="place" className="popup__input" type="text" name="place" placeholder="Название" required minLength="2" maxLength="30" />
-              <span id="error-place" className="popup__input-error"></span>
-            </label>
-            <label className="popup__form-field">
-              <input id="link" className="popup__input" type="url" name="link" placeholder="Ссылка на картинку" required />
-              <span id="error-link" className="popup__input-error"></span>
-            </label>
-          </>
-        </PopupWithForm>
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
+        />
         <ImagePopup
           card={selectedCard}
           onClose={closeAllPopups}
