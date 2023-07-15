@@ -32,6 +32,7 @@ function App() {
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
+
   }
 
   function handleAddPlaceClick() {
@@ -112,6 +113,15 @@ function App() {
       });
   }
 
+  function handleValidationInput(event, setFunc) {
+    if (event.target.validity.valid) {
+      setFunc(true)
+    } else {
+      setFunc(false)
+    }
+  }
+
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="wrapper">
@@ -130,11 +140,13 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          onValidationInput={handleValidationInput}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
+          onValidationInput={handleValidationInput}
         />
         <ImagePopup
           card={selectedCard}
@@ -149,6 +161,7 @@ function App() {
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          onValidationInput={handleValidationInput}
         />
       </div>
     </CurrentUserContext.Provider>
