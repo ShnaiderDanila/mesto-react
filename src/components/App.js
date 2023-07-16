@@ -16,6 +16,11 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false);
+
+  const [isLoadingEditProfile, setIsLoadingEditProfile] = React.useState(false);
+  const [isLoadingAddPlace, setIsLoadingAddPlace] = React.useState(false);
+  const [isLoadingEditAvatar, setIsLoadingEditAvatar] = React.useState(false);
+
   const [selectedCard, setSelectedCard] = React.useState({ name: '', link: '' });
   const [cardForDelete, setCardForDelete] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState({});
@@ -89,6 +94,8 @@ function App() {
   }
 
   function handleUpdateUser(name, about) {
+    // Включаем индикатор загрузки запроса
+    setIsLoadingEditProfile(true)
     api.editProfile(name, about)
       .then(() => {
         setCurrentUser({ ...currentUser, name: name, about: about })
@@ -96,10 +103,16 @@ function App() {
       })
       .catch((err) => {
         console.error(`Ошибка: ${err}`);
+      })
+      // Выключаем индикатор загрузки запроса
+      .finally(() => {
+        setIsLoadingEditProfile(false)
       });
   }
 
   function handleUpdateAvatar(avatar) {
+    // Включаем индикатор загрузки запроса
+    setIsLoadingEditAvatar(true)
     api.updateAvatar(avatar)
       .then(() => {
         setCurrentUser({ ...currentUser, avatar: avatar })
@@ -107,10 +120,16 @@ function App() {
       })
       .catch((err) => {
         console.error(`Ошибка: ${err}`);
+      })
+      // Выключаем индикатор загрузки запроса
+      .finally(() => {
+        setIsLoadingEditAvatar(false)
       });
   }
 
   function handleAddPlaceSubmit(name, link) {
+    // Включаем индикатор загрузки запроса
+    setIsLoadingAddPlace(true)
     api.addCard(name, link)
       .then((newCard) => {
         setCards([newCard, ...cards]);
@@ -118,6 +137,10 @@ function App() {
       })
       .catch((err) => {
         console.error(`Ошибка: ${err}`);
+      })
+      // Выключаем индикатор загрузки запроса
+      .finally(() => {
+        setIsLoadingAddPlace(false)
       });
   }
 
@@ -137,11 +160,13 @@ function App() {
         <Footer />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
+          isLoading={isLoadingEditProfile}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
+          isLoading={isLoadingAddPlace}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
         />
@@ -156,6 +181,7 @@ function App() {
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
+          isLoading={isLoadingEditAvatar}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
