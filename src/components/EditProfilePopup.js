@@ -1,18 +1,23 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
 import CurrentUserContext from "../contexts/CurrentUserContext";
+import { useValidation } from '../hooks/useValidation';
 
-function EditProfilePopup({ isOpen, onClose, onUpdateUser, onValidationInput}) {
-
+function EditProfilePopup({ isOpen, onClose, onUpdateUser}) {
   const [name, setName] = React.useState('');
-  const [nameValidation, setNameValidation] = React.useState(true);
-  const [nameValidationMessage, setNameValidationMessage] = React.useState('');
-  
   const [description, setDescription] = React.useState('');
-  const [descriptionValidation, setDescriptionValidation] = React.useState(true);
-  const [descriptionValidationMessage, setDescriptionValidationMessage] = React.useState('');
-
+  const {isValid, errorMessage, handleChangeValidation, resetFormValidation} = useValidation({}); 
   const currentUser = React.useContext(CurrentUserContext);
+
+  function handleChangeName(evt) {
+    setName(evt.target.value)
+    handleChangeValidation(evt);
+  }
+
+  function handleChangeDescription(evt) {
+    setDescription(evt.target.value)
+    handleChangeValidation(evt);
+  }
 
   React.useEffect(() => {
     if (isOpen) {
@@ -21,30 +26,10 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, onValidationInput}) {
     }
   }, [isOpen, currentUser]);
 
-  const isValid = nameValidation && descriptionValidation;
-
-  function handleChangeName(event) {
-    onValidationInput(event, setNameValidation);
-    setName(event.target.value);
-    setNameValidationMessage(event.target.validationMessage);
-  }
-
-  function handleChangeDescription(event) {
-    onValidationInput(event, setDescriptionValidation);
-    setDescription(event.target.value);
-    setDescriptionValidationMessage(event.target.validationMessage);
-  }
-
+  
   function handleSumbit(e) {
     e.preventDefault();
     onUpdateUser(name, description);
-  }
-
-  function resetForm() {
-    setName('');
-    setDescription('');
-    setNameValidation(true);
-    setDescriptionValidation(true);
   }
 
   return (
@@ -53,17 +38,16 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, onValidationInput}) {
       title="Редактировать профиль"
       buttonText="Сохранить"
       isOpen={isOpen}
+      isValidForm={isValid}
       onClose={onClose}
       onSubmit={handleSumbit}
-      isValidForm={isValid}
-      onResetForm={resetForm}
-      >
+      onResetFormValidation={resetFormValidation}>
       <>
         <label className="popup__form-field">
           <input
             id="username"
-            className={`popup__input ${!nameValidation && 'popup__input_invalid'}`}
-            value={name || ''}
+            className={`popup__input ${errorMessage.name && 'popup__input_invalid'}`}
+            value={name || ""} 
             onChange={handleChangeName}
             type="text"
             name="name"
@@ -71,12 +55,12 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, onValidationInput}) {
             required
             minLength="2"
             maxLength="40" />
-          <span id="error-username" className={`popup__input-error ${!nameValidation && 'popup__input-error_active'}`}>{nameValidationMessage}</span>
+          <span id="error-username" className={`popup__input-error ${errorMessage.name && 'popup__input-error_active'}`}>{errorMessage.name}</span>
         </label>
         <label className="popup__form-field">
           <input
             id="about"
-            className={`popup__input ${!descriptionValidation && 'popup__input_invalid'}`}
+            className={`popup__input ${errorMessage.about && 'popup__input_invalid'}`}
             value={description || ''} 
             onChange={handleChangeDescription}
             type="text"
@@ -85,7 +69,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, onValidationInput}) {
             required
             minLength="2"
             maxLength="200" />
-          <span id="error-about" className={`popup__input-error ${!descriptionValidation && 'popup__input-error_active'}`}>{descriptionValidationMessage}</span>
+          <span id="error-about" className={`popup__input-error ${errorMessage.about && 'popup__input-error_active'}`}>{errorMessage.about}</span>
         </label>
       </>
     </PopupWithForm>
