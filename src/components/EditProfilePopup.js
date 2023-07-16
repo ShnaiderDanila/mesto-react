@@ -36,6 +36,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser}) {
     setName('');
     setDescription('');
     resetFormValidation();
+    onClose();
   }
 
   return (
@@ -45,7 +46,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser}) {
       buttonText="Сохранить"
       isOpen={isOpen}
       isValidForm={isValid}
-      onClose={onClose}
+      onClose={resetForm}
       onSubmit={handleSumbit}
       onResetForm={resetForm}>
       <>

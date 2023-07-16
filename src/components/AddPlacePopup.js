@@ -27,6 +27,7 @@ function AddPlacePopup({isOpen, onClose, onAddPlace}) {
     setPlace('');
     setLink('');
     resetFormValidation();
+    onClose();
   }
 
   return (
@@ -35,7 +36,7 @@ function AddPlacePopup({isOpen, onClose, onAddPlace}) {
       title="Новое место"
       buttonText="Создать"
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={resetForm}
       onSubmit={handleSubmit}
       isValidForm={isValid}
       onResetForm={resetForm}

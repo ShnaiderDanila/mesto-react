@@ -14,6 +14,7 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
   function resetForm() {
     avatar.current.value = "";
     resetFormValidation();
+    onClose();
   }
 
   return (
@@ -22,7 +23,7 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
       title="Обновить аватар"
       buttonText="Сохранить"
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={resetForm}
       onSubmit={handleSubmit}
       isValidForm={isValid}
       onResetForm={resetForm}>
