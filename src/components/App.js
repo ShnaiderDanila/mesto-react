@@ -2,11 +2,11 @@ import React from 'react';
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ImagePopup from "./ImagePopup";
+import ConfirmPopup from './ConfirmPopup'
 import { api } from "../utils/Api.js";
 import CurrentUserContext from "../contexts/CurrentUserContext.js";
 
@@ -15,7 +15,9 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({ name: '', link: '' });
+  const [cardForDelete, setCardForDelete] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
 
@@ -32,7 +34,6 @@ function App() {
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
-
   }
 
   function handleAddPlaceClick() {
@@ -47,10 +48,16 @@ function App() {
     setSelectedCard({ name: card.name, link: card.link })
   }
 
+  function handleTrashClick(card) {
+    setIsConfirmPopupOpen(true);
+    setCardForDelete(card);
+  }
+
   function closeAllPopups() {
     isEditProfilePopupOpen && setIsEditProfilePopupOpen(false);
     isAddPlacePopupOpen && setIsAddPlacePopupOpen(false);
     isEditAvatarPopupOpen && setIsEditAvatarPopupOpen(false);
+    isConfirmPopupOpen && setIsConfirmPopupOpen(false);
     selectedCard && setSelectedCard({ name: '', link: '' });
   }
 
@@ -68,12 +75,13 @@ function App() {
       });
   }
 
-  function handleCardDelete(card) {
+  function handleCardDelete() {
     // Отправляем запрос в API на удаление карточки и получаем обновлённый массив
-    api.deleteCard(card._id)
+    api.deleteCard(cardForDelete._id)
       .then(() => {
-        const newCardsArray = cards.filter(currentCard => currentCard._id !== card._id)
+        const newCardsArray = cards.filter(currentCard => currentCard._id !== cardForDelete._id)
         setCards(newCardsArray);
+        closeAllPopups();
       })
       .catch((err) => {
         console.error(`Ошибка: ${err}`);
@@ -113,15 +121,6 @@ function App() {
       });
   }
 
-  function handleValidationInput(event, setFunc) {
-    if (event.target.validity.valid) {
-      setFunc(true)
-    } else {
-      setFunc(false)
-    }
-  }
-
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="wrapper">
@@ -133,35 +132,32 @@ function App() {
           onEditAvatar={handleEditAvatarClick}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
+          onTrashClick={handleTrashClick}
         />
         <Footer />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
-          onValidationInput={handleValidationInput}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
-          onValidationInput={handleValidationInput}
         />
         <ImagePopup
           card={selectedCard}
           onClose={closeAllPopups}
         />
-        <PopupWithForm
-          name="alert"
-          title="Вы уверены?"
-          buttonText="Да">
-        </PopupWithForm>
+        <ConfirmPopup
+          isOpen={isConfirmPopupOpen}
+          onClose={closeAllPopups}
+          onDeleteCard={handleCardDelete}
+        />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
-          onValidationInput={handleValidationInput}
         />
       </div>
     </CurrentUserContext.Provider>
