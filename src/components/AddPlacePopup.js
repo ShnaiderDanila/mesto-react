@@ -1,28 +1,21 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
+import { useValidation } from "../hooks/useValidation";
 
-function AddPlacePopup({isOpen, onClose, onAddPlace, onValidationInput}) {
+function AddPlacePopup({isOpen, onClose, onAddPlace}) {
 
   const [place, setPlace] = React.useState('');
-  const [placeValidation, setPlaceValidation] = React.useState(true);
-  const [placeValidationMessage, setPlaceValidationMessage] = React.useState('');
-
   const [link, setLink] = React.useState('');
-  const [linkValidation, setLinkValidation] = React.useState(true);
-  const [linkValidationMessage, setLinkValidationMessage] = React.useState('');
+  const {isValid, errorMessage, handleChangeValidation, resetFormValidation} =  useValidation({}); 
 
-  const isValid = placeValidation && linkValidation;
-  
-  function handleChangePlace(event) {
-    onValidationInput(event, setPlaceValidation)
-    setPlace(event.target.value);
-    setPlaceValidationMessage(event.target.validationMessage);
+  function handleChangePlace(evt) {
+    setPlace(evt.target.value);
+    handleChangeValidation(evt);
   }
 
-  function handleChangeLink(event) {
-    onValidationInput(event, setLinkValidation)
-    setLink(event.target.value);
-    setLinkValidationMessage(event.target.validationMessage);
+  function handleChangeLink(evt) {
+    setLink(evt.target.value);
+    handleChangeValidation(evt);
   }
 
   function handleSubmit(e) {
@@ -33,10 +26,9 @@ function AddPlacePopup({isOpen, onClose, onAddPlace, onValidationInput}) {
   function resetForm() {
     setPlace('');
     setLink('');
-    setPlaceValidation(true);
-    setLinkValidation(true);
+    resetFormValidation();
   }
-  
+
   return (
     <PopupWithForm
       name="add"
@@ -52,7 +44,7 @@ function AddPlacePopup({isOpen, onClose, onAddPlace, onValidationInput}) {
         <label className="popup__form-field">
           <input 
           id="place" 
-          className={`popup__input ${!placeValidation && 'popup__input_invalid'}`}
+          className={`popup__input ${errorMessage.place && 'popup__input_invalid'}`}
           type="text" 
           value={place || ""} 
           onChange={handleChangePlace} 
@@ -61,19 +53,19 @@ function AddPlacePopup({isOpen, onClose, onAddPlace, onValidationInput}) {
           required 
           minLength="2" 
           maxLength="30" />
-          <span id="error-place" className={`popup__input-error ${!placeValidation && 'popup__input-error_active'}`}>{placeValidationMessage}</span>
+          <span id="error-place" className={`popup__input-error ${errorMessage.place && 'popup__input-error_active'}`}>{errorMessage.place}</span>
         </label>
         <label className="popup__form-field">
           <input 
           id="link" 
-          className={`popup__input ${!linkValidation && 'popup__input_invalid'}`}
+          className={`popup__input ${errorMessage.link && 'popup__input_invalid'}`}
           type="url" 
           name="link" 
           value={link  || ""}
           onChange={handleChangeLink} 
           placeholder="Ссылка на картинку" 
           required />
-          <span id="error-link" className={`popup__input-error ${!linkValidation && 'popup__input-error_active'}`}>{linkValidationMessage}</span>
+          <span id="error-link" className={`popup__input-error ${errorMessage.link && 'popup__input-error_active'}`}>{errorMessage.link}</span>
         </label>
       </>
     </PopupWithForm>

@@ -1,15 +1,10 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
+import { useValidation } from "../hooks/useValidation";
 
-function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, onValidationInput}) {
+function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
   const avatar = React.useRef();
-  const [avatarValidation, setAvatarValidation] = React.useState(true);
-  const [avatarValidationMessage, setAvatarValidationMessage] = React.useState('');
-
-  function handleChangeAvatar(event) {
-    onValidationInput(event, setAvatarValidation);
-    setAvatarValidationMessage(event.target.validationMessage);
-  }
+  const {isValid, errorMessage, handleChangeValidation, resetFormValidation} =  useValidation({}); 
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -18,7 +13,7 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, onValidationInput}) {
 
   function resetForm() {
     avatar.current.value = "";
-    setAvatarValidation(true);
+    resetFormValidation();
   }
 
   return (
@@ -29,20 +24,20 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar, onValidationInput}) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
-      isValidForm={avatarValidation}
+      isValidForm={isValid}
       onResetForm={resetForm}>
       <>
         <label className="popup__form-field">
           <input 
           id="avatar" 
-          className={`popup__input ${!avatarValidation && 'popup__input_invalid'}`}
+          className={`popup__input ${errorMessage.avatar && 'popup__input_invalid'}`}
           type="url" 
           ref={avatar} 
-          onChange={handleChangeAvatar} 
+          onChange={handleChangeValidation} 
           name="avatar" 
           placeholder="Ссылка на картинку" 
           required />
-          <span id="error-avatar" className={`popup__input-error ${!avatarValidation && 'popup__input-error_active'}`}>{avatarValidationMessage}</span>
+          <span id="error-avatar" className={`popup__input-error ${errorMessage.avatar && 'popup__input-error_active'}`}>{errorMessage.avatar}</span>
         </label>
       </>
     </PopupWithForm>
