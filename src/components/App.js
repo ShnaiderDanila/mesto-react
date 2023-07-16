@@ -12,20 +12,30 @@ import CurrentUserContext from "../contexts/CurrentUserContext.js";
 
 function App() {
 
+  // Стейт-переменные для открытия попапов
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false);
 
+  // Стейт-переменные загрузки попапов
   const [isLoadingEditProfile, setIsLoadingEditProfile] = React.useState(false);
   const [isLoadingAddPlace, setIsLoadingAddPlace] = React.useState(false);
   const [isLoadingEditAvatar, setIsLoadingEditAvatar] = React.useState(false);
 
+  // Стейт-переменная выбранной карты (данные для ImagePopup)
   const [selectedCard, setSelectedCard] = React.useState({ name: '', link: '' });
+
+  // Стейт-переменная выбранной карты, для последующего удаления через ConfirmPopup
   const [cardForDelete, setCardForDelete] = React.useState({});
+
+  // Стейт-переменная текущего пользователя страницы
   const [currentUser, setCurrentUser] = React.useState({});
+
+  // Стейт-переменная карточек на странице
   const [cards, setCards] = React.useState([]);
 
+  // Получение с сервера данных пользователя страницы и начальных карточек 
   React.useEffect(() => {
     api.getAppInfo()
       .then(([initialCards, userInfo]) => {
@@ -96,6 +106,7 @@ function App() {
   function handleUpdateUser(name, about) {
     // Включаем индикатор загрузки запроса
     setIsLoadingEditProfile(true)
+    // Отправляем запрос в API на изменение данных пользователя страницы
     api.editProfile(name, about)
       .then(() => {
         setCurrentUser({ ...currentUser, name: name, about: about })
@@ -113,6 +124,7 @@ function App() {
   function handleUpdateAvatar(avatar) {
     // Включаем индикатор загрузки запроса
     setIsLoadingEditAvatar(true)
+    // Отправляем запрос в API на обновление автара пользователя страницы
     api.updateAvatar(avatar)
       .then(() => {
         setCurrentUser({ ...currentUser, avatar: avatar })
@@ -130,6 +142,7 @@ function App() {
   function handleAddPlaceSubmit(name, link) {
     // Включаем индикатор загрузки запроса
     setIsLoadingAddPlace(true)
+    // Отправляем запрос в API на добавление новой карточки на страницу
     api.addCard(name, link)
       .then((newCard) => {
         setCards([newCard, ...cards]);
