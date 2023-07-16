@@ -11,7 +11,7 @@ export function useValidation() {
   }
 
   function resetFormValidation() {
-    setIsValid(true);
+    setIsValid(false);
     setErrorMessage({});
   }
 
