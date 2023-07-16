@@ -1,7 +1,7 @@
-function PopupWithForm({isOpen, isValidForm, onClose, onSubmit, onResetFormValidation, name, title, buttonText, children}) {
+function PopupWithForm({isOpen, isValidForm, onClose, onSubmit, onResetForm, name, title, buttonText, children}) {
 
   function closePopupWithForm() {
-    onResetFormValidation();
+    onResetForm();
     onClose();
   }
 

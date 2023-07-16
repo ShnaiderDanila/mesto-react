@@ -32,6 +32,12 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser}) {
     onUpdateUser(name, description);
   }
 
+  function resetForm() {
+    setName('');
+    setDescription('');
+    resetFormValidation();
+  }
+
   return (
     <PopupWithForm
       name="profile"
@@ -41,7 +47,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser}) {
       isValidForm={isValid}
       onClose={onClose}
       onSubmit={handleSumbit}
-      onResetFormValidation={resetFormValidation}>
+      onResetForm={resetForm}>
       <>
         <label className="popup__form-field">
           <input
