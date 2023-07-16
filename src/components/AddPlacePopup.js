@@ -1,19 +1,19 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { useValidation } from "../hooks/useValidation";
 
 function AddPlacePopup({ isOpen, isLoading, onClose, onAddPlace }) {
 
-  const [place, setPlace] = React.useState('');
-  const [link, setLink] = React.useState('');
+  const [place, setPlace] = useState('');
+  const [link, setLink] = useState('');
   // Использование кастомного хука useValidation, для включения валидации на инпутах попапа
   const { isValid, errorMessage, handleChangeValidation, resetValidation } = useValidation({});
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isOpen) {
       resetForm()
     }
-  }, [isOpen]);
+  }, [isOpen, resetForm]);
 
   function resetForm() {
     setPlace('');

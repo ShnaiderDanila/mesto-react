@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -13,30 +13,30 @@ import CurrentUserContext from "../contexts/CurrentUserContext.js";
 function App() {
 
   // Стейт-переменные для открытия попапов
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
 
   // Стейт-переменные загрузки попапов
-  const [isLoadingEditProfile, setIsLoadingEditProfile] = React.useState(false);
-  const [isLoadingAddPlace, setIsLoadingAddPlace] = React.useState(false);
-  const [isLoadingEditAvatar, setIsLoadingEditAvatar] = React.useState(false);
+  const [isLoadingEditProfile, setIsLoadingEditProfile] = useState(false);
+  const [isLoadingAddPlace, setIsLoadingAddPlace] = useState(false);
+  const [isLoadingEditAvatar, setIsLoadingEditAvatar] = useState(false);
 
   // Стейт-переменная выбранной карты (данные для ImagePopup)
-  const [selectedCard, setSelectedCard] = React.useState({ name: '', link: '' });
+  const [selectedCard, setSelectedCard] = useState({ name: '', link: '' });
 
   // Стейт-переменная выбранной карты, для последующего удаления через ConfirmPopup
-  const [cardForDelete, setCardForDelete] = React.useState({});
+  const [cardForDelete, setCardForDelete] = useState({});
 
   // Стейт-переменная текущего пользователя страницы
-  const [currentUser, setCurrentUser] = React.useState({});
+  const [currentUser, setCurrentUser] = useState({});
 
   // Стейт-переменная карточек на странице
-  const [cards, setCards] = React.useState([]);
+  const [cards, setCards] = useState([]);
 
   // Получение с сервера данных пользователя страницы и начальных карточек 
-  React.useEffect(() => {
+  useEffect(() => {
     api.getAppInfo()
       .then(([initialCards, userInfo]) => {
         setCurrentUser(userInfo)
@@ -124,7 +124,7 @@ function App() {
   function handleUpdateAvatar(avatar) {
     // Включаем индикатор загрузки запроса
     setIsLoadingEditAvatar(true)
-    // Отправляем запрос в API на обновление автара пользователя страницы
+    // Отправляем запрос в API на обновление аватара пользователя страницы
     api.updateAvatar(avatar)
       .then(() => {
         setCurrentUser({ ...currentUser, avatar: avatar })

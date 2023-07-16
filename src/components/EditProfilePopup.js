@@ -1,17 +1,17 @@
-import React from "react";
+import { useState, useContext, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import { useValidation } from '../hooks/useValidation';
 
 function EditProfilePopup({ isOpen, isLoading, onClose, onUpdateUser }) {
-  const [name, setName] = React.useState('');
-  const [description, setDescription] = React.useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   // Использование кастомного хука useValidation, для включения валидации на инпутах попапа
   const { isValid, errorMessage, handleChangeValidation } = useValidation({});
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
 
   // При открытии попапа, подставлять соответствующие данные текущего пользователя в инпуты
-  React.useEffect(() => {
+  useEffect(() => {
     if (isOpen) {
       setName(currentUser.name);
       setDescription(currentUser.about);

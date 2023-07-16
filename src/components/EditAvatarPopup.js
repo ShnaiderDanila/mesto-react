@@ -1,18 +1,18 @@
-import React from "react";
+import { useRef, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 import { useValidation } from "../hooks/useValidation";
 
 function EditAvatarPopup({ isOpen, isLoading, onClose, onUpdateAvatar }) {
 
-  const avatar = React.useRef();
+  const avatar = useRef();
   // Использование кастомного хука useValidation, для включения валидации на инпутах попапа
   const { isValid, errorMessage, handleChangeValidation, resetValidation } = useValidation({});
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isOpen) {
       resetForm()
     }
-  }, [isOpen]);
+  }, [isOpen, resetForm]);
 
   function resetForm() {
     avatar.current.value = "";
