@@ -1,12 +1,12 @@
-import React from "react";
+import { useState, useCallback} from "react";
 
 export function useValidation() {
 
   // Стейт-переменная валидности формы 
-  const [isValid, setIsValid] = React.useState(false);
+  const [isValid, setIsValid] = useState(false);
 
   // Стейт-переменная текста ошибки валидации
-  const [errorMessage, setErrorMessage] = React.useState({});
+  const [errorMessage, setErrorMessage] = useState({});
 
   // Функция обработки валидации при срабатывании события
   function handleChangeValidation(evt) {
@@ -17,10 +17,10 @@ export function useValidation() {
   }
 
   // Функция сброса валидации
-  function resetValidation() {
-    setIsValid(false);
-    setErrorMessage({});
-  }
+  const resetValidation = useCallback((newErrorMessage = {}, newIsValid = false) => {
+      setErrorMessage(newErrorMessage);
+      setIsValid(newIsValid);
+    }, [setErrorMessage, setIsValid])
 
   return {isValid, errorMessage, handleChangeValidation, resetValidation};
 

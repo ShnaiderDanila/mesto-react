@@ -11,15 +11,11 @@ function AddPlacePopup({ isOpen, isLoading, onClose, onAddPlace }) {
 
   useEffect(() => {
     if (isOpen) {
-      resetForm()
+      setPlace('');
+      setLink('');
+      resetValidation();
     }
-  }, [isOpen, resetForm]);
-
-  function resetForm() {
-    setPlace('');
-    setLink('');
-    resetValidation();
-  }
+  }, [isOpen, resetValidation]);
 
   function handleChangePlace(evt) {
     setPlace(evt.target.value);

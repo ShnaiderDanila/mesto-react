@@ -10,14 +10,10 @@ function EditAvatarPopup({ isOpen, isLoading, onClose, onUpdateAvatar }) {
 
   useEffect(() => {
     if (isOpen) {
-      resetForm()
+      avatar.current.value = "";
+      resetValidation();
     }
-  }, [isOpen, resetForm]);
-
-  function resetForm() {
-    avatar.current.value = "";
-    resetValidation();
-  }
+  }, [isOpen, resetValidation]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
