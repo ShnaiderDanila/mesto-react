@@ -43,42 +43,40 @@ function AddPlacePopup({ isOpen, isLoading, onClose, onAddPlace }) {
       isLoading={isLoading}
       onClose={onClose}
       onSubmit={handleSubmit}>
-      <>
-        <label className="popup__form-field">
-          <input
-            id="place"
-            className={`popup__input ${errorMessage.place && 'popup__input_invalid'}`}
-            type="text"
-            name="place"
-            placeholder="Название"
-            value={place || ""}
-            onChange={handleChangePlace}
-            required
-            minLength="2"
-            maxLength="30" />
-          <span
-            id="error-place"
-            className={`popup__input-error ${errorMessage.place && 'popup__input-error_active'}`}>
-            {errorMessage.place}
-          </span>
-        </label>
-        <label className="popup__form-field">
-          <input
-            id="link"
-            className={`popup__input ${errorMessage.link && 'popup__input_invalid'}`}
-            type="url"
-            name="link"
-            value={link || ""}
-            onChange={handleChangeLink}
-            placeholder="Ссылка на картинку"
-            required />
-          <span
-            id="error-link"
-            className={`popup__input-error ${errorMessage.link && 'popup__input-error_active'}`}>
-            {errorMessage.link}
-          </span>
-        </label>
-      </>
+      <label className="popup__form-field">
+        <input
+          id="place"
+          className={`popup__input ${errorMessage.place && 'popup__input_invalid'}`}
+          type="text"
+          name="place"
+          placeholder="Название"
+          value={place || ""}
+          onChange={handleChangePlace}
+          required
+          minLength="2"
+          maxLength="30" />
+        <span
+          id="error-place"
+          className={`popup__input-error ${errorMessage.place && 'popup__input-error_active'}`}>
+          {errorMessage.place}
+        </span>
+      </label>
+      <label className="popup__form-field">
+        <input
+          id="link"
+          className={`popup__input ${errorMessage.link && 'popup__input_invalid'}`}
+          type="url"
+          name="link"
+          value={link || ""}
+          onChange={handleChangeLink}
+          placeholder="Ссылка на картинку"
+          required />
+        <span
+          id="error-link"
+          className={`popup__input-error ${errorMessage.link && 'popup__input-error_active'}`}>
+          {errorMessage.link}
+        </span>
+      </label>
     </PopupWithForm>
   )
 }

@@ -18,10 +18,8 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
 
-  // Стейт-переменные загрузки попапов
-  const [isLoadingEditProfile, setIsLoadingEditProfile] = useState(false);
-  const [isLoadingAddPlace, setIsLoadingAddPlace] = useState(false);
-  const [isLoadingEditAvatar, setIsLoadingEditAvatar] = useState(false);
+  // Стейт-переменная загрузки попапа
+  const [isLoading, setIsLoading] = useState(false);
 
   // Стейт-переменная выбранной карты (данные для ImagePopup)
   const [selectedCard, setSelectedCard] = useState({ name: '', link: '' });
@@ -105,7 +103,7 @@ function App() {
 
   function handleUpdateUser(name, about) {
     // Включаем индикатор загрузки запроса
-    setIsLoadingEditProfile(true)
+    setIsLoading(true)
     // Отправляем запрос в API на изменение данных пользователя страницы
     api.editProfile(name, about)
       .then(() => {
@@ -117,13 +115,13 @@ function App() {
       })
       // Выключаем индикатор загрузки запроса
       .finally(() => {
-        setIsLoadingEditProfile(false)
+        setIsLoading(false)
       });
   }
 
   function handleUpdateAvatar(avatar) {
     // Включаем индикатор загрузки запроса
-    setIsLoadingEditAvatar(true)
+    setIsLoading(true)
     // Отправляем запрос в API на обновление аватара пользователя страницы
     api.updateAvatar(avatar)
       .then(() => {
@@ -135,13 +133,13 @@ function App() {
       })
       // Выключаем индикатор загрузки запроса
       .finally(() => {
-        setIsLoadingEditAvatar(false)
+        setIsLoading(false)
       });
   }
 
   function handleAddPlaceSubmit(name, link) {
     // Включаем индикатор загрузки запроса
-    setIsLoadingAddPlace(true)
+    setIsLoading(true)
     // Отправляем запрос в API на добавление новой карточки на страницу
     api.addCard(name, link)
       .then((newCard) => {
@@ -153,7 +151,7 @@ function App() {
       })
       // Выключаем индикатор загрузки запроса
       .finally(() => {
-        setIsLoadingAddPlace(false)
+        setIsLoading(false)
       });
   }
 
@@ -173,13 +171,13 @@ function App() {
         <Footer />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
-          isLoading={isLoadingEditProfile}
+          isLoading={isLoading}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
-          isLoading={isLoadingAddPlace}
+          isLoading={isLoading}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
         />
@@ -194,7 +192,7 @@ function App() {
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
-          isLoading={isLoadingEditAvatar}
+          isLoading={isLoading}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
